@@ -7,29 +7,28 @@ import scala.util.Random
 object SampleStrategy {
 
   /**
-   *  Create new members of the next generation.
-   *  To do so perform the following steps
-   *  - Select couples of candidates to be the parents for some of the members
-   *    of the next generation
-   *  - create new candidates by applying crossover on the selected couples
-   *  - Apply mutation on the outcome of crossing over the couples (optional)
-   *  - Apply mutation on any of the candidates from the previous generation (optional)
-   *  - Create new random candidates (optional)
+   *  Create a member for the next generation of robots.
    *
+   *  To do so perform the following steps (for example)
+   *  - Select two candidates to be the parents of the new robot
+   *  - Create a new robot code combining the parents' codes (by applying crossover)
+   *  - Apply mutation on the new robot code (optional)
+   *
+   *  creatorName: Tag the new robot with your name, to track its origins back to you
    *  currentRobots: The candidates from the current generation sorted by their fitness
    */
   def createNewCode(creatorName: String, currentRobots: Seq[Robot]): RobotCode = {
 
     // select parents
-    val left = currentRobots(Random.nextInt(currentRobots.size)).code
-    val right = currentRobots(Random.nextInt(currentRobots.size)).code
+    val mother = currentRobots(Random.nextInt(currentRobots.size)).code
+    val father = currentRobots(Random.nextInt(currentRobots.size)).code
 
     // crossover
-    val leftCount = Random.nextInt(left.code.length)
-    val result = left.code.take(leftCount) ++ right.code.drop(leftCount)
+    val motherCount = Random.nextInt(mother.code.length)
+    val result = mother.code.take(motherCount) ++ father.code.drop(motherCount)
 
     // TODO: mutate
-    RobotCode(result, creatorName, Seq(left, right))
+    RobotCode(result, creatorName, Seq(mother, father))
   }
 
 }
